@@ -1,0 +1,11 @@
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 56px; /* Adjust for fixed navbar */
+  left: 0;
+  transition: transform 0.3s ease;
+}
+.sidebar.collapsed {
+  transform: translateX(-250px);
+}

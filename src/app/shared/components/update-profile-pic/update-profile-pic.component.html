@@ -1,0 +1,29 @@
+<div class="mb-4 text-center" [formGroup]="profilePictureForm">
+  <label for="profilePicture" class="form-label">Profile Picture</label>
+  <div>
+    <img
+      id="profilePreview"
+      [src]="profilePictureForm.get('profilePictureUrl')?.value"
+      alt="Profile Picture"
+      class="rounded-circle mb-3"
+      style="width: 150px; height: 150px"
+    />
+    <div class="input-group">
+      <input
+        class="form-control w-auto"
+        type="file"
+        id="profilePicture"
+        accept="image/*"
+        (change)="onFileChange($event)"
+      />
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        (click)="clearFileInput()"
+      >
+        <fa-icon [icon]="faTimes"></fa-icon>
+        <!-- Clear icon -->
+      </button>
+    </div>
+  </div>
+</div>

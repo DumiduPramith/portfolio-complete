@@ -1,0 +1,72 @@
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Update Profile</h1>
+
+  <form [formGroup]="homeForm" (ngSubmit)="onSubmit()">
+    <!-- Profile Picture -->
+    <app-update-profile-pic
+      [profilePictureForm]="profilePictureFormGroup"
+    ></app-update-profile-pic>
+
+    <!-- Title -->
+    <app-text-box
+      label="BrandName"
+      type="text"
+      id="brandName"
+      placeholder="Enter Your Brand Name"
+      formControlName="brandName"
+    ></app-text-box>
+
+    <!-- FirstName -->
+    <app-text-box
+      label="First Name"
+      type="text"
+      id="firstName"
+      placeholder="Enter your First Name"
+      formControlName="firstName"
+    ></app-text-box>
+
+    <!-- LastName -->
+    <app-text-box
+      label="Last Name"
+      type="text"
+      id="lastName"
+      placeholder="Enter your Last Name"
+      [required]="true"
+      formControlName="lastName"
+    ></app-text-box>
+
+    <!-- Professions -->
+    <app-drag-list [professions]="professions"></app-drag-list>
+
+    <div formArrayName="socialMedias">
+      @for(socialMedia of socialMediasFormArray.controls; track socialMedia;let
+      i =$index){
+      <app-text-box-with-active
+        label="{{ socialMedia.get('name')?.value }} URL"
+        type="url"
+        id="{{ socialMedia.get('name')?.value }}URL"
+        placeholder="Enter Your {{ socialMedia.get('name')?.value }} Url"
+        [formGroup]="getFormGroup(socialMedia)"
+      ></app-text-box-with-active>
+      }
+    </div>
+    <!-- Resume File -->
+    <app-choose-file-with-active
+      accept=".pdf"
+      id="resumeUrl"
+      label="Resume file"
+      [formGroup]="resumeFormGroup"
+    ></app-choose-file-with-active>
+
+    <!-- GitHub URL -->
+    <app-text-box-with-active
+      label="Github URL"
+      type="url"
+      id="githubURL"
+      placeholder="Enter Your Github Url"
+      [formGroup]="githubFormGroup"
+    ></app-text-box-with-active>
+
+    <button type="submit" class="btn btn-success w-100">Update Profile</button>
+  </form>
+</div>

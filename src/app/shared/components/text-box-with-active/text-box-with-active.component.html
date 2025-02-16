@@ -1,0 +1,25 @@
+<div class="mb-3" [formGroup]="formGroup">
+  <label [for]="id" class="form-label">{{ label }}</label>
+  <div class="d-flex align-items-center gap-2">
+    <!-- Input Field -->
+    <input
+      [type]="type"
+      class="form-control"
+      [id]="id"
+      [placeholder]="placeholder"
+      [name]="id"
+      formControlName="url"
+    />
+
+    <!-- Checkbox for isActive -->
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="{{ id }}-isActive"
+        formControlName="isActive"
+      />
+      <label class="form-check-label" for="{{ id }}-isActive"> Active </label>
+    </div>
+  </div>
+</div>
