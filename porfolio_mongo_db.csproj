@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="3.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\About\Data\" />
+    <Folder Include="Areas\About\Views\" />
+    <Folder Include="Areas\Home\Data\" />
+    <Folder Include="Areas\Home\Views\" />
+    <Folder Include="Areas\Index\Data\" />
+    <Folder Include="Areas\Index\Views\" />
+    <Folder Include="Areas\Portfolio\Data\" />
+    <Folder Include="Areas\Portfolio\Views\" />
+    <Folder Include="Areas\Profiles\Controllers\" />
+    <Folder Include="Areas\Profiles\Data\" />
+    <Folder Include="Areas\Profiles\Views\" />
+    <Folder Include="Areas\Users\Data\" />
+    <Folder Include="Areas\Users\Views\" />
+    <Folder Include="Static\Resume_Files\" />
+  </ItemGroup>
+
+</Project>

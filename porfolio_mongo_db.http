@@ -1,0 +1,6 @@
+@porfolio_mongo_db_HostAddress = http://localhost:5290
+
+GET {{porfolio_mongo_db_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
