@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-md-6">
+    <form id="cardForm" [formGroup]="cardFormGroup">
+      <div class="mb-3">
+        <label for="imageUrl" class="form-label">Image URL</label>
+        <input
+          type="file"
+          accept=".png"
+          class="form-control"
+          id="imageUrl"
+          name="imageUrl"
+          placeholder="Enter image URL (.png)"
+          (change)="onFileChange($event)"
+          #fileInput
+        />
+      </div>
+      <div class="mb-3">
+        <label for="cardTitle" class="form-label">Card Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="cardTitle"
+          placeholder="Enter card title"
+          formControlName="name"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="cardDescription" class="form-label">Card Description</label>
+        <textarea
+          class="form-control"
+          id="cardDescription"
+          rows="3"
+          placeholder="Enter card description"
+          formControlName="description"
+        ></textarea>
+      </div>
+      <button type="button" class="btn btn-primary me-3" (click)="addCard()">
+        Add Card
+      </button>
+      <button type="button" class="btn btn-danger" (click)="clearCard()">
+        Clear Card
+      </button>
+    </form>
+  </div>
+</div>

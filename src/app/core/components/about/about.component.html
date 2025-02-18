@@ -1,0 +1,49 @@
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Update About</h1>
+  <app-text-field
+    label="paragraph1"
+    placeholder="Paragraph 1"
+    [formController]="paragraph1FormController"
+  ></app-text-field>
+  <app-text-field
+    label="paragraph2"
+    placeholder="Paragraph 2"
+    [formController]="paragraph2FormController"
+  ></app-text-field>
+  <h4>Update Tech Stack</h4>
+  <div
+    class="d-flex row ms-5"
+    cdkDropList
+    (cdkDropListDropped)="onDrop($event, techFormArray)"
+  >
+    @for(skillFormGroup of techFormArray.controls; track skillFormGroup; let i =
+    $index){
+    <app-skill-card
+      class="col-12 col-sm-6 col-md-4 col-xl-3 p-3"
+      cdkDrag
+      [skillFormGroup]="getFormGroup(skillFormGroup)"
+    ></app-skill-card>
+    }
+    <app-update-skill-card [FormArray]="techFormArray"></app-update-skill-card>
+  </div>
+  <div class="mt-5">
+    <h4>Update Tools</h4>
+    <div
+      class="d-flex row ms-5"
+      cdkDropList
+      (cdkDropListDropped)="onDrop($event, toolsFormArray)"
+    >
+      @for(toolFormGroup of toolsFormArray.controls; track toolsFormArray; let i
+      = $index){
+      <app-skill-card
+        class="col-12 col-sm-6 col-md-4 col-xl-3 p-3"
+        [skillFormGroup]="getFormGroup(toolFormGroup)"
+        cdkDrag
+      ></app-skill-card>
+      }
+      <app-update-skill-card
+        [FormArray]="toolsFormArray"
+      ></app-update-skill-card>
+    </div>
+  </div>
+</div>

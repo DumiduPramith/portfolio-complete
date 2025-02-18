@@ -8,22 +8,27 @@
       class="rounded-circle mb-3"
       style="width: 150px; height: 150px"
     />
-    <div class="input-group">
-      <input
-        class="form-control w-auto"
-        type="file"
-        id="profilePicture"
-        accept="image/*"
-        (change)="onFileChange($event)"
-      />
-      <button
-        class="btn btn-outline-secondary"
-        type="button"
-        (click)="clearFileInput()"
-      >
-        <fa-icon [icon]="faTimes"></fa-icon>
-        <!-- Clear icon -->
-      </button>
-    </div>
+  </div>
+</div>
+<div class="mb-4">
+  <label for="profilePictureInputGroup" class="form-label"
+    >Choose Profile Picture</label
+  >
+  <div class="input-group" id="profilePictureInputGroup">
+    <input
+      class="form-control w-auto"
+      type="file"
+      id="profilePicture"
+      accept="image/*"
+      (change)="onFileChange($event)"
+    />
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      (click)="clearFileInput()"
+    >
+      <fa-icon [icon]="faTimes"></fa-icon>
+      <!-- Clear icon -->
+    </button>
   </div>
 </div>

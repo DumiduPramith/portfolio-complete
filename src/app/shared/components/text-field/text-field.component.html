@@ -1,1 +1,11 @@
-<p>text-field works!</p>
+<div class="mb-3">
+  <label [for]="label" class="form-label">{{ placeholder }}</label>
+  <textarea
+    class="form-control"
+    [id]="label"
+    rows="3"
+    placeholder="Enter {{ placeholder }}"
+    [formControl]="formController"
+    autoResize
+  ></textarea>
+</div>
