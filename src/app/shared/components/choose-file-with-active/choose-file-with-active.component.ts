@@ -21,7 +21,6 @@ export class ChooseFileWithActiveComponent {
 
   onFileChange(event: any) {
     this.oldValue = this.formGroup.get(this.id)?.value;
-    console.log(this.oldValue);
     const file = event.target.files[0];
     if (file) {
       this.formGroup.get(this.id)?.setValue(file);

@@ -5,7 +5,8 @@ import { SideNavComponent } from './core/components/side-nav/side-nav.component'
 import { ToolbarComponent } from './core/components/toolbar/toolbar.component';
 import { LoginComponent } from './feature/components/login/login.component';
 import { AuthCheckService } from './shared/services/auth-check.service';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ErrorService } from './core/services/error.service';
+import { ErrorPageComponent } from './core/components/error-page/error-page.component';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SideNavComponent,
     ToolbarComponent,
     LoginComponent,
-    FontAwesomeModule,
+    ErrorPageComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -24,6 +25,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 export class AppComponent {
   isLoggedIn = false;
   private authCheck = inject(AuthCheckService);
+  private errorService = inject(ErrorService);
+
+  errorMessage$ = this.errorService.getErrorMessage();
+
   ngOnInit() {
     if (this.authCheck.checkAuth()) {
       this.isLoggedIn = true;

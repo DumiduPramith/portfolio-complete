@@ -13,5 +13,6 @@ export class TextBoxWithActiveComponent {
   @Input({ required: true }) id: string = '';
   @Input({ required: true }) placeholder: string = '';
   @Input({ required: true }) label: string = '';
-  @Input({ required: true }) formGroup!: FormGroup;
+  @Input({ required: true }) formGroup_!: FormGroup;
+  @Input({ required: true }) formControlName_!: string;
 }

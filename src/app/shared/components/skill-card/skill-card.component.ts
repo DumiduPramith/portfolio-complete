@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faEye,
   faEyeSlash,
   faGripVertical,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -16,17 +17,26 @@ import {
 })
 export class SkillCardComponent {
   @Input({ required: true }) skillFormGroup!: FormGroup;
+  @Input({ required: true }) skillFormArray!: FormArray;
+
   faEye = faEye;
   faEyeSlash = faEyeSlash;
+  faTrash = faTrash;
   faGripVertical = faGripVertical;
-
-  ngOnInit() {
-    console.log(this.skillFormGroup);
-  }
 
   toggleVisibility(formGroup: FormGroup) {
     const isVisibleControl = formGroup.get('isActive');
     isVisibleControl?.setValue(!isVisibleControl.value);
+  }
+
+  removeSkill(formGroup: FormGroup) {
+    const index = this.skillFormArray.controls.indexOf(formGroup);
+    this.skillFormArray.removeAt(index);
+
+    // re-index the form array
+    this.skillFormArray.controls.forEach((control, i) => {
+      (control as FormGroup).patchValue({ index: i });
+    });
   }
 
   get iconUrl(): FormControl {

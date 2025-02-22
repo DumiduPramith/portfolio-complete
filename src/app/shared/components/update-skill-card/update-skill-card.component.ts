@@ -1,5 +1,6 @@
 import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-update-skill-card',
@@ -15,6 +16,7 @@ export class UpdateSkillCardComponent {
 
   fb = inject(FormBuilder);
   cardFormGroup = this.createCardFormGroup();
+  formGroupArrayStatusSubscription: Subscription = Subscription.EMPTY;
 
   createCardFormGroup() {
     return this.fb.group({
@@ -25,6 +27,18 @@ export class UpdateSkillCardComponent {
       index: [0],
     });
   }
+
+  ngAfterViewInit() {
+    this.formGroupArrayStatusSubscription =
+      this.FormArray.statusChanges.subscribe(() => {
+        if (this.FormArray.status === 'DISABLED') {
+          this.cardFormGroup.disable();
+        } else {
+          this.cardFormGroup.enable();
+        }
+      });
+  }
+
   addCard() {
     const nextIndex = this.FormArray.length;
     this.cardFormGroup.patchValue({ index: nextIndex });

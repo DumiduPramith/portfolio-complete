@@ -3,7 +3,7 @@ import { TextBoxComponent } from '../../../shared/components/text-box/text-box.c
 import { DragListComponent } from '../../../shared/components/drag-list/drag-list.component';
 import { UpdateProfilePicComponent } from '../../../shared/components/update-profile-pic/update-profile-pic.component';
 import { FetchHomeService } from '../../services/fetch-home.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { HomeFetchResponseInterface } from '../../interfaces/HomeFetchResponse.interface';
 import {
   FormArray,
@@ -16,28 +16,44 @@ import { TextBoxWithActiveComponent } from '../../../shared/components/text-box-
 import { ChooseFileWithActiveComponent } from '../../../shared/components/choose-file-with-active/choose-file-with-active.component';
 import { HomeUpdateService } from '../../services/home-update.service';
 import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { CommonModule } from '@angular/common';
+import { FormUtilService } from '../../../shared/services/form-util.service';
+import { AddFieldComponent } from '../../../shared/components/add-field/add-field.component';
+import { ToastServiceService } from '../../../shared/services/toast-service.service';
+import { ErrorService } from '../../services/error.service';
+import { FormState } from '../../store/reducers/form.reducer';
+import { selectHomeFormStatus } from '../../store/selectors/form.selector';
+import { updateHomeFormStatus } from '../../store/actions/form.action';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     TextBoxComponent,
     DragListComponent,
     UpdateProfilePicComponent,
     TextBoxWithActiveComponent,
     ChooseFileWithActiveComponent,
+    AddFieldComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
+  fb = inject(FormBuilder);
+  router = inject(Router);
+  toastService = inject(ToastServiceService);
+
   homeFetchService = inject(FetchHomeService);
   homeFetchServiceSubscription = Subscription.EMPTY;
-  fb = inject(FormBuilder);
+
   homeUpdateService = inject(HomeUpdateService);
-  router = inject(Router);
   homeUpdateServiceSubscription = Subscription.EMPTY;
+
+  formUtilService = inject(FormUtilService);
   HomeData: HomeFetchResponseInterface = {
     profilePictureUrl: '',
     brandName: '',
@@ -68,7 +84,17 @@ export class HomeComponent {
     },
   };
 
+  homeFormStatus$!: Observable<boolean>;
+  homeFormStatus: boolean = false;
+  homeFormStatusSubscription = Subscription.EMPTY;
+
+  errorService = inject(ErrorService);
+
   homeForm!: FormGroup;
+
+  constructor(private store: Store<{ form: FormState }>) {
+    this.homeFormStatus$ = this.store.pipe(select(selectHomeFormStatus));
+  }
 
   ngOnInit() {
     this.homeForm = this.fb.group({
@@ -101,8 +127,27 @@ export class HomeComponent {
         },
         error: (error) => {
           console.error(error);
+          this.errorService.setError('Error fetching home data', {});
+        },
+        complete: () => {
+          this.formUtilService.disableForm(this.homeForm);
         },
       });
+
+    this.homeFormStatusSubscription = this.homeFormStatus$.subscribe(
+      (status) => {
+        this.homeFormStatus = status;
+        if (status) {
+          this.formUtilService.enableForm(this.homeForm);
+        } else {
+          this.formUtilService.disableForm(this.homeForm);
+        }
+      }
+    );
+  }
+
+  onChangeFormStatus() {
+    this.store.dispatch(updateHomeFormStatus(!this.homeFormStatus));
   }
 
   async onSubmit() {
@@ -127,11 +172,14 @@ export class HomeComponent {
       .subscribe({
         next: (response) => {
           console.log(response);
+          this.toastService.showToast('Home updated', 'Success');
         },
         error: (error) => {
           console.error(error);
+          this.toastService.showToast('Error updating home', 'Error');
         },
         complete: () => {
+          this.onChangeFormStatus();
           this.router.navigate([this.router.url]);
         },
       });
@@ -144,8 +192,8 @@ export class HomeComponent {
       lastName: value.lastName,
     });
 
+    const formArray = this.homeForm.get('professions') as FormArray;
     value.professions.forEach((profession) => {
-      const formArray = this.homeForm.get('professions') as FormArray;
       formArray.push(
         this.fb.group({
           professionName: profession.professionName,
@@ -206,15 +254,15 @@ export class HomeComponent {
     return this.homeForm.get('socialMedias') as FormArray;
   }
 
-  getFormGroup(formGroup_: any): FormGroup {
-    return formGroup_;
-  }
   ngOnDestroy() {
     if (this.homeFetchServiceSubscription) {
       this.homeFetchServiceSubscription.unsubscribe();
     }
     if (this.homeUpdateServiceSubscription) {
       this.homeUpdateServiceSubscription.unsubscribe();
+    }
+    if (this.homeFormStatusSubscription) {
+      this.homeFormStatusSubscription.unsubscribe();
     }
   }
 

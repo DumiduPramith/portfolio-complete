@@ -1,0 +1,20 @@
+<div class="input-group mb-3">
+  <input
+    [type]="type"
+    id="newProfession"
+    class="form-control"
+    [placeholder]="placeholder"
+    [disabled]="formArray.disabled"
+    #newInput
+    (keyup.enter)="onClick(newInput)"
+  />
+  <button
+    type="button"
+    id="addProfession"
+    class="btn btn-primary"
+    (click)="onClick(newInput)"
+    [disabled]="formArray.disabled"
+  >
+    Add
+  </button>
+</div>

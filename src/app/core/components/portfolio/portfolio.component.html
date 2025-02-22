@@ -1,1 +1,51 @@
-<p>portfolio works!</p>
+<div class="container mt-3">
+  <h4 class="text-center mb-4">Update Portfolio</h4>
+  <div>
+    <div
+      class="row"
+      cdkDropList
+      cdkDropListOrientation="mixed"
+      [cdkDropListDisabled]="!portfolioFormStatus"
+      (cdkDropListDropped)="
+        onDrop(
+          $event,
+          formUtilService.getFormArray(portfolioForm.get('projects'))
+        )
+      "
+    >
+      @if(projectsFormArray){ @for(project of projectsFormArray.controls; track
+      project){
+      <app-portfolio-card
+        cdkDrag
+        class="col-12 col-md-6 col-lg-4"
+        [formGroup]="formUtilService.getFormGroup(project)"
+        [formArray_]="projectsFormArray"
+      ></app-portfolio-card>
+      } }
+    </div>
+  </div>
+  @if(projectsFormArray){
+  <app-add-portfolio-form
+    [formArray_]="projectsFormArray"
+  ></app-add-portfolio-form>
+
+  }
+</div>
+<div class="d-flex gap-3">
+  <button
+    type="submit"
+    class="btn w-100"
+    (click)="onChangeFormStatus()"
+    [ngClass]="[!portfolioFormStatus ? 'btn-warning' : 'btn-danger']"
+  >
+    {{ portfolioFormStatus ? "Disable" : "Edit" }}
+  </button>
+  <button
+    type="submit"
+    class="btn btn-success w-100"
+    (click)="onSubmit()"
+    [disabled]="!portfolioFormStatus"
+  >
+    Portfolio Update
+  </button>
+</div>

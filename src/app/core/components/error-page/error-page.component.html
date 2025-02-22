@@ -1,0 +1,13 @@
+@if(errorMessage){
+
+<div
+  class="error-container d-flex flex-column justify-content-center align-items-center vh-100 bg-dark text-white"
+>
+  <div class="text-center">
+    <h1 class="display-4">Oops!</h1>
+    <p class="lead">{{ errorMessage }}</p>
+    <button class="btn btn-primary mt-3" (click)="reload()">Reload</button>
+  </div>
+</div>
+
+}

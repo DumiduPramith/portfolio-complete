@@ -1,0 +1,37 @@
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Update Contact</h1>
+  <div class="container">
+    <app-drag-list
+      [formArray]="emailsFormArray"
+      valueControllerName="emailAddress"
+      [activeOne]="true"
+      label="Emails"
+    ></app-drag-list>
+    <div class="mb-4">
+      <app-add-field
+        [formArray]="emailsFormArray"
+        valueControllerName="emailAddress"
+        type="email"
+        placeholder="Add Email"
+      ></app-add-field>
+    </div>
+  </div>
+  <div class="d-flex gap-3">
+    <button
+      type="submit"
+      class="btn w-100"
+      (click)="onChangeFormStatus()"
+      [ngClass]="[!contactFormStatus ? 'btn-warning' : 'btn-danger']"
+    >
+      {{ contactFormStatus ? "Disable" : "Edit" }}
+    </button>
+    <button
+      type="submit"
+      class="btn btn-success w-100"
+      (click)="onSubmit()"
+      [disabled]="!contactFormStatus"
+    >
+      Update Contact
+    </button>
+  </div>
+</div>

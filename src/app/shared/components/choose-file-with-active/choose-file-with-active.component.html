@@ -10,11 +10,13 @@
         [accept]="accept"
         (change)="onFileChange($event)"
         #fileInput
+        [disabled]="formGroup.disabled"
       />
       <button
         class="btn btn-outline-secondary"
         type="button"
         (click)="clearFileInput()"
+        [disabled]="formGroup.disabled"
       >
         <fa-icon [icon]="faTimes"></fa-icon>
         <!-- Clear icon -->

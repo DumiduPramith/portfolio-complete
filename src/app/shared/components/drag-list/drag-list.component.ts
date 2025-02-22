@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormControl,
-  FormGroup,
-} from '@angular/forms';
+import { AbstractControl, FormArray } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faEye,
@@ -30,22 +25,42 @@ export class DragListComponent {
   faEyeSlash = faEyeSlash;
   faGripVertical = faGripVertical;
 
-  @Input() professions!: FormArray;
+  @Input({ required: true }) formArray!: FormArray;
+  @Input({ required: true }) valueControllerName!: string;
+  @Input({ required: true }) label!: string;
+  @Input() activeOne: boolean = false;
 
   toggleVisibility(profession: AbstractControl) {
+    if (this.formArray.disabled) {
+      return;
+    }
     const isVisibleCOntrol = profession.get('isActive');
-    isVisibleCOntrol?.setValue(!isVisibleCOntrol.value);
+    if (this.activeOne) {
+      this.visibleHideAll();
+      isVisibleCOntrol?.setValue(true);
+    } else {
+      isVisibleCOntrol?.setValue(!isVisibleCOntrol.value);
+    }
+  }
+
+  visibleHideAll() {
+    this.formArray.controls.forEach((control) => {
+      control.get('isActive')?.setValue(false);
+    });
   }
 
   deleteProfession(index: number) {
-    this.professions.removeAt(index);
+    this.formArray.removeAt(index);
     this.updatePositions();
+    if (this.activeOne && this.formArray.length > 0) {
+      this.formArray.controls[0].get('isActive')?.setValue(true);
+    }
   }
 
   drop(event: CdkDragDrop<string[]>) {
     // Update the form array order
     moveItemInArray(
-      this.professions.controls,
+      this.formArray.controls,
       event.previousIndex,
       event.currentIndex
     );
@@ -54,26 +69,12 @@ export class DragListComponent {
   }
 
   private updatePositions() {
-    this.professions.controls.forEach((control, index) => {
+    this.formArray.controls.forEach((control, index) => {
       control.patchValue({ index: index }, { emitEvent: false });
     });
   }
 
-  addProfession(input: HTMLInputElement) {
-    const newProfession = input.value.trim();
-    if (newProfession) {
-      const position = this.professions.length;
-      this.professions.push(
-        new FormGroup({
-          professionName: new FormControl(newProfession),
-          isActive: new FormControl(true),
-          index: new FormControl(position),
-        })
-      );
-      input.value = '';
-    }
-  }
   ngOnInit() {
-    console.log(this.professions);
+    console.log(this.formArray);
   }
 }

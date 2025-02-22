@@ -34,3 +34,7 @@
 .hidden {
   display: none;
 }
+.disabled {
+  opacity: 0.5; /* Make the icon appear faded */
+  pointer-events: none; /* Disable pointer events (e.g., clicks) */
+}

@@ -1,0 +1,82 @@
+<div class="mb-4">
+  <app-choose-file
+    label="Portfolio Image"
+    accept=".png"
+    id="url"
+    [formControl_]="
+      formUtilService.getFormControl(
+        formUtilService.getFormControl(newProjectForm.get('image')).get('url')
+      )
+    "
+    #chooseFileComponent
+  ></app-choose-file>
+  <app-text-box
+    type="text"
+    id="title"
+    label="Title"
+    placeholder="Enter Project Title"
+    [formControl_]="formUtilService.getFormControl(newProjectForm.get('title'))"
+  ></app-text-box>
+  <app-text-field
+    label="Description"
+    placeholder="Enter Project Description"
+    [formController]="
+      formUtilService.getFormControl(newProjectForm.get('description'))
+    "
+  ></app-text-field>
+  <app-drag-list
+    [formArray]="
+      formUtilService.getFormArray(newProjectForm.get('technologies'))
+    "
+    valueControllerName="name"
+    label="Project Technologies"
+  ></app-drag-list>
+  <app-add-field
+    [formArray]="
+      formUtilService.getFormArray(newProjectForm.get('technologies'))
+    "
+    valueControllerName="name"
+    placeholder="Enter Technology"
+    type="text"
+  ></app-add-field>
+  <app-text-box-with-active
+    type="url"
+    id="github"
+    placeholder="Enter github url"
+    label="Github"
+    [formGroup_]="
+      formUtilService.getFormGroup(
+        formUtilService.getFormArray(newProjectForm.get('projectUrls')).at(0)
+      )
+    "
+    formControlName_="url"
+  ></app-text-box-with-active>
+  <app-text-box-with-active
+    type="url"
+    id="liveUrl"
+    placeholder="Enter live url"
+    label="liveUrl"
+    [formGroup_]="
+      formUtilService.getFormGroup(
+        formUtilService.getFormArray(newProjectForm.get('projectUrls')).at(1)
+      )
+    "
+    formControlName_="url"
+  ></app-text-box-with-active>
+  <button
+    type="button"
+    class="btn btn-primary me-3"
+    (click)="addCard()"
+    [disabled]="formArray_.disabled"
+  >
+    Add Card
+  </button>
+  <button
+    type="button"
+    class="btn btn-danger"
+    (click)="clearCard()"
+    [disabled]="formArray_.disabled"
+  >
+    Clear Card
+  </button>
+</div>

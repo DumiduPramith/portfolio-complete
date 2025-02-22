@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <h1 class="text-center mb-4">Update Profile</h1>
 
-  <form [formGroup]="homeForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="homeForm">
     <!-- Profile Picture -->
     <app-update-profile-pic
       [profilePictureForm]="profilePictureFormGroup"
@@ -13,7 +13,7 @@
       type="text"
       id="brandName"
       placeholder="Enter Your Brand Name"
-      formControlName="brandName"
+      [formControl_]="formUtilService.getFormControl(homeForm.get('brandName'))"
     ></app-text-box>
 
     <!-- FirstName -->
@@ -22,7 +22,7 @@
       type="text"
       id="firstName"
       placeholder="Enter your First Name"
-      formControlName="firstName"
+      [formControl_]="formUtilService.getFormControl(homeForm.get('firstName'))"
     ></app-text-box>
 
     <!-- LastName -->
@@ -32,11 +32,23 @@
       id="lastName"
       placeholder="Enter your Last Name"
       [required]="true"
-      formControlName="lastName"
+      [formControl_]="formUtilService.getFormControl(homeForm.get('lastName'))"
     ></app-text-box>
 
     <!-- Professions -->
-    <app-drag-list [professions]="professions"></app-drag-list>
+    <app-drag-list
+      [formArray]="professions"
+      valueControllerName="professionName"
+      label="Professions"
+    ></app-drag-list>
+    <div class="mb-4">
+      <app-add-field
+        [formArray]="professions"
+        valueControllerName="professionName"
+        type="text"
+        placeholder="Add Profession"
+      ></app-add-field>
+    </div>
 
     <div formArrayName="socialMedias">
       @for(socialMedia of socialMediasFormArray.controls; track socialMedia;let
@@ -46,7 +58,8 @@
         type="url"
         id="{{ socialMedia.get('name')?.value }}URL"
         placeholder="Enter Your {{ socialMedia.get('name')?.value }} Url"
-        [formGroup]="getFormGroup(socialMedia)"
+        [formGroup_]="formUtilService.getFormGroup(socialMedia)"
+        formControlName_="url"
       ></app-text-box-with-active>
       }
     </div>
@@ -64,7 +77,8 @@
       type="url"
       id="githubURL"
       placeholder="Enter Your Github Url"
-      [formGroup]="githubFormGroup"
+      [formGroup_]="githubFormGroup"
+      formControlName_="url"
     ></app-text-box-with-active>
 
     <!-- <app-text-box-with-active
@@ -74,7 +88,23 @@
     placeholder="Enter Your LinkedIn Url"
     [formGroup]="linkedInFormGroup"
     ></app-text-box-with-active> -->
-
-    <button type="submit" class="btn btn-success w-100">Update Profile</button>
+    <div class="d-flex gap-3">
+      <button
+        type="submit"
+        class="btn w-100"
+        (click)="onChangeFormStatus()"
+        [ngClass]="[!homeFormStatus ? 'btn-warning' : 'btn-danger']"
+      >
+        {{ homeFormStatus ? "Disable" : "Edit" }}
+      </button>
+      <button
+        type="submit"
+        class="btn btn-success w-100"
+        (click)="onSubmit()"
+        [disabled]="!homeFormStatus"
+      >
+        Update Home
+      </button>
+    </div>
   </form>
 </div>

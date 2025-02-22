@@ -28,6 +28,21 @@ export const routes: Routes = [
           ),
         title: 'Portfolio',
       },
+      {
+        path: 'contact',
+        loadComponent: () =>
+          import('./core/components/contact/contact.component').then(
+            (m) => m.ContactComponent
+          ),
+        title: 'Contact',
+      },
+      {
+        path: '**',
+        loadComponent: () =>
+          import('./core/components/not-found/not-found.component').then(
+            (m) => m.NotFoundComponent
+          ),
+      },
     ],
   },
   {

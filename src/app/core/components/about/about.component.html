@@ -14,14 +14,17 @@
   <div
     class="d-flex row ms-5"
     cdkDropList
+    cdkDropListOrientation="mixed"
+    [cdkDropListDisabled]="techFormArray.disabled"
     (cdkDropListDropped)="onDrop($event, techFormArray)"
   >
-    @for(skillFormGroup of techFormArray.controls; track skillFormGroup; let i =
+    @for(skillFormGroup of techFormArray.controls; track $index; let i =
     $index){
     <app-skill-card
       class="col-12 col-sm-6 col-md-4 col-xl-3 p-3"
       cdkDrag
-      [skillFormGroup]="getFormGroup(skillFormGroup)"
+      [skillFormGroup]="formUtilService.getFormGroup(skillFormGroup)"
+      [skillFormArray]="techFormArray"
     ></app-skill-card>
     }
     <app-update-skill-card [FormArray]="techFormArray"></app-update-skill-card>
@@ -31,13 +34,16 @@
     <div
       class="d-flex row ms-5"
       cdkDropList
+      cdkDropListOrientation="mixed"
+      [cdkDropListDisabled]="toolsFormArray.disabled"
       (cdkDropListDropped)="onDrop($event, toolsFormArray)"
     >
-      @for(toolFormGroup of toolsFormArray.controls; track toolsFormArray; let i
-      = $index){
+      @for(toolFormGroup of toolsFormArray.controls; track $index; let i =
+      $index){
       <app-skill-card
         class="col-12 col-sm-6 col-md-4 col-xl-3 p-3"
-        [skillFormGroup]="getFormGroup(toolFormGroup)"
+        [skillFormGroup]="formUtilService.getFormGroup(toolFormGroup)"
+        [skillFormArray]="toolsFormArray"
         cdkDrag
       ></app-skill-card>
       }
@@ -46,4 +52,24 @@
       ></app-update-skill-card>
     </div>
   </div>
+  <div class="d-flex gap-3 mt-5">
+    <button
+      type="submit"
+      class="btn w-100"
+      (click)="onChangeFormStatus()"
+      [ngClass]="[!aboutFormStatus ? 'btn-warning' : 'btn-danger']"
+    >
+      {{ aboutFormStatus ? "Disable" : "Edit" }}
+    </button>
+    <button
+      type="submit"
+      class="btn btn-success w-100"
+      (click)="onSubmit()"
+      [disabled]="!aboutFormStatus"
+    >
+      Update Home
+    </button>
+  </div>
 </div>
+
+<app-spacer spacer="spacer-3"></app-spacer>

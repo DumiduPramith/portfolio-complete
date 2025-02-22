@@ -1,4 +1,12 @@
 <div class="mb-3">
   <label for="{{ id }}" class="form-label">{{ label }}</label>
-  <input class="form-control" type="file" [id]="id" [accept]="accept" />
+  <input
+    class="form-control"
+    type="file"
+    [id]="id"
+    [accept]="accept"
+    [disabled]="formControl_.disabled"
+    #fileInput
+    (change)="onFileChange($event)"
+  />
 </div>

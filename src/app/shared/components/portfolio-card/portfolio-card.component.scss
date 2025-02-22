@@ -1,0 +1,47 @@
+.rounded-3xl {
+  border-radius: 1.5rem;
+}
+.bg-card {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 30 31 / var(--tw-bg-opacity));
+}
+.border-card {
+  --tw-border-opacity: 1;
+  border-color: rgb(56 56 56 / var(--tw-border-opacity));
+  border-width: 1px;
+}
+
+.gap-_5 {
+  gap: 0.5rem;
+}
+
+.blur-load.loaded {
+  background-size: unset !important;
+}
+.blur-load {
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  border-radius: 1.5rem;
+}
+
+.fs-2 {
+  font-size: 1.1rem !important;
+}
+.fw-500 {
+  font-weight: 500;
+}
+.text-amber-200 {
+  --tw-text-opacity: 1;
+  color: rgb(253 230 138 / var(--tw-text-opacity));
+}
+
+.drag-handle {
+  cursor: grab;
+  color: #666;
+}
+.disabled {
+  opacity: 0.5; /* Make the icon appear faded */
+  pointer-events: none; /* Disable pointer events (e.g., clicks) */
+}

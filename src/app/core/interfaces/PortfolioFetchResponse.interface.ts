@@ -1,4 +1,4 @@
-export interface PortfolioResponseInterface {
+export interface PortfolioFetchResponseInterface {
   projects: [
     {
       title: string;
@@ -10,7 +10,7 @@ export interface PortfolioResponseInterface {
         width: string;
         height: string;
       };
-      technologies: string[];
+      technologies: TechnologiesInterface[];
       projectUrls: [
         {
           url: string;
@@ -20,6 +20,13 @@ export interface PortfolioResponseInterface {
         }
       ];
       isActive: boolean;
+      index: number;
     }
   ];
+}
+
+interface TechnologiesInterface {
+  name: string;
+  isActive: boolean;
+  index: number;
 }

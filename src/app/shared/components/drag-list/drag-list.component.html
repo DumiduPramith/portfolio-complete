@@ -1,12 +1,13 @@
-<div class="mb-4" formArrayName="professions">
-  <label class="form-label">Professions</label>
+<div formArrayName="professions" class="mb-3">
+  <label class="form-label">{{ label }}</label>
   <ul
     id="professionList"
     class="list-group"
     cdkDropList
+    [cdkDropListDisabled]="formArray.disabled"
     (cdkDropListDropped)="drop($event)"
   >
-    @for(profession of professions.controls; track profession; let i = $index){
+    @for(profession of formArray.controls; track profession; let i = $index){
     <li
       class="list-group-item d-flex justify-content-between align-items-center"
       cdkDrag
@@ -16,18 +17,22 @@
         <span class="drag-handle me-2" cdkDragHandle>
           <fa-icon [icon]="faGripVertical"></fa-icon>
         </span>
-        {{ profession.get("professionName")?.value }}
+        <span class="ms-3">
+          {{ profession.get(valueControllerName)?.value }}
+        </span>
       </div>
-      <div class="d-flex">
+      <div class="d-flex align-items-center">
         <div role="button" class="me-4" (click)="toggleVisibility(profession)">
           <span
             class="icon-container"
+            [class.disabled]="formArray.disabled"
             [class.hidden]="!profession.get('isActive')?.value"
           >
             <fa-icon [icon]="faEye"></fa-icon>
           </span>
           <span
             class="icon-container"
+            [class.disabled]="formArray.disabled"
             [class.hidden]="profession.get('isActive')?.value"
           >
             <fa-icon [icon]="faEyeSlash"></fa-icon>
@@ -37,6 +42,7 @@
           type="button"
           class="btn btn-danger btn-sm delete-profession"
           (click)="deleteProfession(i)"
+          [disabled]="formArray.disabled"
         >
           Delete
         </button>
@@ -44,22 +50,4 @@
     </li>
     }
   </ul>
-  <div class="input-group mt-3">
-    <input
-      type="text"
-      id="newProfession"
-      class="form-control"
-      placeholder="Add a profession"
-      #newProfessionInput
-      (keyup.enter)="addProfession(newProfessionInput)"
-    />
-    <button
-      type="button"
-      id="addProfession"
-      class="btn btn-primary"
-      (click)="addProfession(newProfessionInput)"
-    >
-      Add
-    </button>
-  </div>
 </div>

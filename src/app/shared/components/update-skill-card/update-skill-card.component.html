@@ -11,6 +11,7 @@
           name="imageUrl"
           placeholder="Enter image URL (.png)"
           (change)="onFileChange($event)"
+          [disabled]="FormArray.disabled"
           #fileInput
         />
       </div>
@@ -34,10 +35,20 @@
           formControlName="description"
         ></textarea>
       </div>
-      <button type="button" class="btn btn-primary me-3" (click)="addCard()">
+      <button
+        type="button"
+        class="btn btn-primary me-3"
+        (click)="addCard()"
+        [disabled]="FormArray.disabled"
+      >
         Add Card
       </button>
-      <button type="button" class="btn btn-danger" (click)="clearCard()">
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="clearCard()"
+        [disabled]="FormArray.disabled"
+      >
         Clear Card
       </button>
     </form>

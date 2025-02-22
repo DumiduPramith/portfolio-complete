@@ -12,10 +12,8 @@ export class AutoResizeTextareaDirective {
     this.resize();
   }
 
-  ngOnInit() {
-    if (this.elementRef.nativeElement.scrollHeight > 0) {
-      this.resize();
-    }
+  ngAfterViewInit() {
+    setTimeout(() => this.resize(), 500);
   }
 
   resize() {
@@ -23,5 +21,6 @@ export class AutoResizeTextareaDirective {
     textarea.style.overflow = 'hidden';
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
+    console.log('textarea.scrollHeight', textarea.scrollHeight);
   }
 }

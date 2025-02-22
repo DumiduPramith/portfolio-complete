@@ -21,11 +21,13 @@
       id="profilePicture"
       accept="image/*"
       (change)="onFileChange($event)"
+      [disabled]="profilePictureForm.disabled"
     />
     <button
       class="btn btn-outline-secondary"
       type="button"
       (click)="clearFileInput()"
+      [disabled]="profilePictureForm.disabled"
     >
       <fa-icon [icon]="faTimes"></fa-icon>
       <!-- Clear icon -->
